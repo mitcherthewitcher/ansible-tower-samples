@@ -1,5 +1,5 @@
 ---
-- name: Playbook that continues after errors
+- name: Playbook that continues after errors and sleeps at the end
   hosts: localhost
   gather_facts: no
 
@@ -28,3 +28,7 @@
     - name: Show the result of the successful command
       debug:
         msg: "The successful command returned: {{ echo_result.stdout }}"
+
+    - name: Sleep for 2 minutes at the end
+      pause:
+        minutes: 2

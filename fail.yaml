@@ -1,0 +1,29 @@
+---
+- name: Playbook with intentional failure at the end
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Print a message
+      debug:
+        msg: "This is the first task, and it will succeed."
+
+    - name: Create a temporary file
+      tempfile:
+        state: file
+      register: temp_file
+      notify: Remove temporary file
+
+    - name: Print the temporary file path
+      debug:
+        msg: "The temporary file has been created at {{ temp_file.path }}."
+
+    - name: Fail the playbook intentionally
+      fail:
+        msg: "This is the last task, and it is designed to fail the playbook."
+
+  handlers:
+    - name: Remove temporary file
+      file:
+        path: "{{ temp_file.path }}"
+        state: absent

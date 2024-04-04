@@ -1,0 +1,30 @@
+---
+- name: Playbook that continues after errors
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Print a starting message
+      debug:
+        msg: "Starting the playbook execution."
+
+    - name: Attempt to execute a failing command
+      command: "/bin/false"
+      ignore_errors: yes
+
+    - name: Attempt to read a non-existent file
+      ansible.builtin.slurp:
+        src: "/path/to/non-existent-file.txt"
+      ignore_errors: yes
+
+    - name: Print a message after failed commands
+      debug:
+        msg: "This task runs even after the previous tasks have failed."
+
+    - name: Execute a successful command
+      command: "/bin/echo Success"
+      register: echo_result
+
+    - name: Show the result of the successful command
+      debug:
+        msg: "The successful command returned: {{ echo_result.stdout }}"

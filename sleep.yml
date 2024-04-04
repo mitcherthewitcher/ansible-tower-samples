@@ -1,0 +1,12 @@
+- name: Hello World Sample
+  hosts: all
+  tasks:
+    - name: Hello Message
+      debug:
+        msg: "Hello World!"
+    - name: Sleep for 5 minutes to test job runtime
+      pause:
+        minutes: 5
+    - name: Goodbye Message
+      debug:
+        msg: "Goodbye World!"

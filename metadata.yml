@@ -1,0 +1,12 @@
+- name: Get EC2 Metadata
+  hosts: all
+  tasks:
+    - name: Curl EC2 Metadata
+      delegate_to: 127.0.0.1
+      shell: curl http://169.254.169.254/latest/dynamic/instance-identity/document
+      register: ec2_metadata
+
+    - name: Print EC2 Metadata
+      debug:
+        msg: "{{ ec2_metadata.stdout }}"
+
